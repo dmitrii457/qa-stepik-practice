@@ -1,0 +1,712 @@
+{
+  "info": {
+    "name": "Stepik — Swagger Petstore API practice",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Все методы публичной схемы Swagger Petstore. Шаблоны запросов и проверки документированных статусов, отсутствия 5xx и времени ответа. Перед запуском задайте свои тестовые идентификаторы. Полный прогон всех методов не выполнялся; SOAP, негативный POST и PUT проверены отдельно."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://petstore.swagger.io/v2",
+      "type": "string"
+    },
+    {
+      "key": "petId",
+      "value": "1793909991",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "1793909991",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "qa_stepik_practice_1793909991",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "PracticeOnly123",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "pet",
+      "item": [
+        {
+          "name": "POST /pet/{petId}/uploadImage — uploads an image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/pet/{{petId}}/uploadImage",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные.",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "additionalMetadata",
+                  "value": "string",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /pet — Add a new pet to the store",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/pet",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {{petId}},\n  \"category\": {\n    \"id\": 0,\n    \"name\": \"string\"\n  },\n  \"name\": \"doggie\",\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 0,\n      \"name\": \"string\"\n    }\n  ],\n  \"status\": \"available\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([405]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /pet — Update an existing pet",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/pet",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {{petId}},\n  \"category\": {\n    \"id\": 0,\n    \"name\": \"string\"\n  },\n  \"name\": \"doggie\",\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 0,\n      \"name\": \"string\"\n    }\n  ],\n  \"status\": \"available\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404, 405]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /pet/findByStatus — Finds Pets by status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/pet/findByStatus?status=available",
+            "description": "Multiple status values can be provided with comma separated strings\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /pet/findByTags — Finds Pets by tags",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/pet/findByTags?tags=cute",
+            "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /pet/{petId} — Find pet by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/pet/{{petId}}",
+            "description": "Returns a single pet\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /pet/{petId} — Updates a pet in the store with form data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/pet/{{petId}}",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные.",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "string",
+                  "type": "text"
+                },
+                {
+                  "key": "status",
+                  "value": "string",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([405]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE /pet/{petId} — Deletes a pet",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/pet/{{petId}}",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "store",
+      "item": [
+        {
+          "name": "GET /store/inventory — Returns pet inventories by status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/store/inventory",
+            "description": "Returns a map of status codes to quantities\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /store/order — Place an order for a pet",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/store/order",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {{orderId}},\n  \"petId\": {{petId}},\n  \"quantity\": 0,\n  \"shipDate\": \"string\",\n  \"status\": \"placed\",\n  \"complete\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /store/order/{orderId} — Find purchase order by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/store/order/{{orderId}}",
+            "description": "For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE /store/order/{orderId} — Delete purchase order by ID",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/store/order/{{orderId}}",
+            "description": "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "item": [
+        {
+          "name": "POST /user/createWithList — Creates list of users with given input array",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/user/createWithList",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные.",
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{username}}\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"string\",\n    \"password\": \"{{password}}\",\n    \"phone\": \"string\",\n    \"userStatus\": 0\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /user/{username} — Get user by user name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/user/{{username}}",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT /user/{username} — Updated user",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/user/{{username}}",
+            "description": "This can only be done by the logged in user.\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0,\n  \"username\": \"{{username}}\",\n  \"firstName\": \"string\",\n  \"lastName\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"{{password}}\",\n  \"phone\": \"string\",\n  \"userStatus\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE /user/{username} — Delete user",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/user/{{username}}",
+            "description": "This can only be done by the logged in user.\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /user/login — Logs user into the system",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/user/login?username={{username}}&password={{password}}",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([200, 400]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /user/logout — Logs out current logged in user session",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/user/logout",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /user/createWithArray — Creates list of users with given input array",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/user/createWithArray",
+            "description": "\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные.",
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"id\": 0,\n    \"username\": \"{{username}}\",\n    \"firstName\": \"string\",\n    \"lastName\": \"string\",\n    \"email\": \"string\",\n    \"password\": \"{{password}}\",\n    \"phone\": \"string\",\n    \"userStatus\": 0\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /user — Create user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/user",
+            "description": "This can only be done by the logged in user.\nУчебный Petstore. Перед запуском задайте собственные ID и username. Удаляйте только созданные вами тестовые данные.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0,\n  \"username\": \"{{username}}\",\n  \"firstName\": \"string\",\n  \"lastName\": \"string\",\n  \"email\": \"string\",\n  \"password\": \"{{password}}\",\n  \"phone\": \"string\",\n  \"userStatus\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Documented HTTP status\", function () { pm.expect(pm.response.code).to.be.oneOf([]); });",
+                  "pm.test(\"No server error\", function () { pm.expect(pm.response.code).to.be.below(500); });",
+                  "pm.test(\"Response time below 5000 ms\", function () { pm.expect(pm.response.responseTime).to.be.below(5000); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
